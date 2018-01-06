@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <title>svg01</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <link rel="stylesheet" href="./style.css"> -->
+  <script defer src="./svg01.js"></script>
+</head>
+
+<style>
+  .dragpoint {
+    r: 5;
+    stroke: none;
+    stroke-width: 0;
+    fill: red;
+    /*fill: rgba(0,0,0,0);*/
+  }
+
+  .lineseg {
+    stroke: rgb(255,0,0);
+    stroke-width: 2;
+  }
+
+
+</style>
+
+<body>
+  <svg height="210" width="500">
+
+    <circle class="dragpoint" cx="10" cy="10"/>
+    <circle class="dragpoint" cx="200" cy="200"/>
+
+    <line id="seg0" class="lineseg" x1="10" y1="10" x2="100" y2="10"/>
+    <line id="seg1" class="lineseg" x1="100" y1="10" x2="100" y2="100"/>
+    <line id="seg2" class="lineseg" x1="100" y1="100" x2="10" y2="100"/>
+    <line id="seg3" class="lineseg" x1="10" y1="100" x2="10" y2="10"/>
+
+  </svg>
+</body>
+
+
+</html>
