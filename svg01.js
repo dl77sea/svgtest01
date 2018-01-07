@@ -3,15 +3,13 @@ var elements = document.querySelectorAll('svg .dragpoint');
 var svgcanvas = document.querySelector('svg');
 
 console.log(elements)
-// add event listeners
-for (let el of elements) {
-  el.addEventListener("touchstart", start);
-  el.addEventListener("mousedown", start);
-}
 
-svgcanvas.addEventListener("touchmove", move);
-svgcanvas.addEventListener("mousemove", move);
-svgcanvas.addEventListener("mouseup", end);
+// add event listeners
+document.addEventListener("touchstart", start);
+document.addEventListener("mousedown", start);
+document.addEventListener("touchmove", move);
+document.addEventListener("mousemove", move);
+document.addEventListener("mouseup", end);
 
 let pickedEl = null;
 var mouseDown = false;
@@ -27,6 +25,7 @@ for (let line of lineSegs) {
   svgLine.setAttribute("y1", line.getAttribute("y1"))
   svgLine.setAttribute("x2", line.getAttribute("x2"))
   svgLine.setAttribute("y2", line.getAttribute("y2"))
+  svgLine.setAttribute("data", line.getAttribute("id"))
 
   document.getElementsByTagName('svg')[0].appendChild(svgLine)
 }
@@ -37,8 +36,14 @@ for (let line of lineSegs) {
 
 // on mouse or touch down
 function start(e) {
-  pickedEl = e.target
   mouseDown = true
+  let targetData = e.target.getAttribute('data')
+
+  if (targetData !== null) {
+    let segId = '#' + targetData
+    pickedEl = document.querySelector(segId)
+    pickedEl.setAttribute('class', 'linesegselected')
+  }
 }
 
 // on move (when down) refresh line points
@@ -52,10 +57,12 @@ function move(e) {
 
 //on mouse or touch up
 function end(e) {
-
   console.log("end")
   // console.log(e.target)
-  console.log("start: ", e.target.getAttribute("id"))
-  pickedEl = null;
+  // console.log("start: ", e.target.getAttribute("id"))
+  if (pickedEl !== null) {
+    pickedEl.setAttribute('class', 'lineseg')
+    pickedEl = null;
+  }
   mouseDown = false;
 }
