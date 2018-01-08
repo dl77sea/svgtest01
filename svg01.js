@@ -1,8 +1,4 @@
-// select elements
-var elements = document.querySelectorAll('svg .dragpoint');
 var svgcanvas = document.querySelector('svg');
-
-console.log(elements)
 
 // add event listeners
 document.addEventListener("touchstart", start);
@@ -14,52 +10,87 @@ document.addEventListener("mouseup", end);
 let pickedEl = null;
 var mouseDown = false;
 
-/* redraw all line segs with thicker widths for for easier hover detection */
-let lineSegs = document.querySelectorAll('svg .lineseg')
-
-for (let line of lineSegs) {
-  var svgLine = document.createElementNS("http://www.w3.org/2000/svg", "line")
-
-  svgLine.setAttribute("class", "lineseghover")
-  svgLine.setAttribute("x1", line.getAttribute("x1"))
-  svgLine.setAttribute("y1", line.getAttribute("y1"))
-  svgLine.setAttribute("x2", line.getAttribute("x2"))
-  svgLine.setAttribute("y2", line.getAttribute("y2"))
-  svgLine.setAttribute("data", line.getAttribute("id"))
-
-  document.getElementsByTagName('svg')[0].appendChild(svgLine)
-}
-
-
-
 /* event listener functions */
-
 // on mouse or touch down
 function start(e) {
-  mouseDown = true
-  let targetData = e.target.getAttribute('data')
-
-  if (targetData !== null) {
-    let segId = '#' + targetData
-    pickedEl = document.querySelector(segId)
+  if (e.target.getAttribute('class') === 'lineseg') {
+    mouseDown = true
+    let segId = e.target.getAttribute('id')
+    pickedEl = document.querySelector('#' + segId)
     pickedEl.setAttribute('class', 'linesegselected')
   }
+}
+
+function getSvgPoint(domX, domY) {
+  let pt = svgcanvas.createSVGPoint();
+  pt.x = domX;
+  pt.y = domY;
+  let svgP = pt.matrixTransform(svgcanvas.getScreenCTM().inverse())
+  return svgP;
 }
 
 // on move (when down) refresh line points
 function move(e) {
   if (pickedEl !== null) {
-    console.log("move")
-    // pickedEl.setAttribute("cx", e.clientX)
-    // pickedEl.setAttribute("cy", e.clientY)
+
+    let seg = pickedEl.getAttribute('id');
+    let svgPt = getSvgPoint(e.clientX, e.clientY)
+
+    //don't let line be dragged outside viewport
+    if (svgPt.x < 0) svgPt.x = 0
+    if (svgPt.x > 500) svgPt.x = 500
+    if (svgPt.y < 0) svgPt.y = 0
+    if (svgPt.y > 200) svgPt.y = 200
+
+    switch (seg) {
+
+      // if line seg0 picked, move all points on seg0 move x1 y1 on seg1 and x2 y2 on seg3, on Y
+      case 'seg0':
+        document.querySelector('#' + seg).setAttribute('y1', svgPt.y)
+        document.querySelector('#' + seg).setAttribute('y2', svgPt.y)
+        document.querySelector('#seg1').setAttribute('y1', svgPt.y)
+        document.querySelector('#seg3').setAttribute('y2', svgPt.y)
+
+        document.querySelector('#corner-ul').setAttribute('cy', svgPt.y)
+        document.querySelector('#corner-ur').setAttribute('cy', svgPt.y)
+        break;
+
+      case 'seg1':
+        document.querySelector('#' + seg).setAttribute('x1', svgPt.x)
+        document.querySelector('#' + seg).setAttribute('x2', svgPt.x)
+        document.querySelector('#seg0').setAttribute('x2', svgPt.x)
+        document.querySelector('#seg2').setAttribute('x1', svgPt.x)
+
+        document.querySelector('#corner-ur').setAttribute('cx', svgPt.x)
+        document.querySelector('#corner-lr').setAttribute('cx', svgPt.x)
+        break;
+
+      case 'seg2':
+        document.querySelector('#' + seg).setAttribute('y1', svgPt.y)
+        document.querySelector('#' + seg).setAttribute('y2', svgPt.y)
+        document.querySelector('#seg1').setAttribute('y2', svgPt.y)
+        document.querySelector('#seg3').setAttribute('y1', svgPt.y)
+
+        document.querySelector('#corner-lr').setAttribute('cy', svgPt.y)
+        document.querySelector('#corner-ll').setAttribute('cy', svgPt.y)
+        break;
+
+      case 'seg3':
+        document.querySelector('#' + seg).setAttribute('x1', svgPt.x)
+        document.querySelector('#' + seg).setAttribute('x2', svgPt.x)
+        document.querySelector('#seg0').setAttribute('x1', svgPt.x)
+        document.querySelector('#seg2').setAttribute('x2', svgPt.x)
+
+        document.querySelector('#corner-ll').setAttribute('cx', svgPt.x)
+        document.querySelector('#corner-ul').setAttribute('cx', svgPt.x)
+        break;
+
+    }
   }
 }
 
 //on mouse or touch up
 function end(e) {
-  console.log("end")
-  // console.log(e.target)
-  // console.log("start: ", e.target.getAttribute("id"))
   if (pickedEl !== null) {
     pickedEl.setAttribute('class', 'lineseg')
     pickedEl = null;
