@@ -13,45 +13,59 @@
     r: 2;
     stroke: none;
     stroke-width: 0;
-    fill: rgb(0,0,0);
+    fill: rgb(0, 0, 0);
   }
+
   .cornerhover {
-    stroke: rgb(0,255,255);
+    stroke: rgb(0, 255, 255);
   }
 
   .lineseg {
     cursor: pointer;
-    stroke: rgb(0,0,0);
+    stroke: rgb(0, 0, 0);
     stroke-width: 4;
     /*stroke-linecap: square;*/
   }
 
   .lineseg:hover {
-    stroke: rgb(0,255,255);
-    /*stroke-linecap: square;*/
-    stroke-width: 4;
-  }
-  .linesegselected {
-    stroke: rgb(0,255,0);
+    stroke: rgb(0, 255, 255);
     /*stroke-linecap: square;*/
     stroke-width: 4;
   }
 
+  .linesegselected {
+    stroke: rgb(0, 255, 0);
+    /*stroke-linecap: square;*/
+    stroke-width: 4;
+  }
+
+  .container {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+
+    flex-direction: column;
+    align-items: center;
+    background-color: red;
+  }
 </style>
 
 <body>
-  <svg height="210" width="500">
+  <div class="container">
+    <h1>SVG DEMO</h1>
+    <p>Click, hold and drag on the edges of the rectangle to adjust it's shape!</p>
+    <svg height="210" width="500">
+        <line id="seg0" class="lineseg" x1="10" y1="10" x2="100" y2="10"/>
+        <line id="seg1" class="lineseg" x1="100" y1="10" x2="100" y2="100"/>
+        <line id="seg2" class="lineseg" x1="100" y1="100" x2="10" y2="100"/>
+        <line id="seg3" class="lineseg" x1="10" y1="100" x2="10" y2="10"/>
+        <circle id="corner-ul" class="corner" cx="10" cy="10"/>
+        <circle id="corner-ur" class="corner" cx="100" cy="10"/>
+        <circle id="corner-lr" class="corner" cx="100" cy="100"/>
+        <circle id="corner-ll" class="corner" cx="10" cy="100"/>
+    </svg>
 
-    <line id="seg0" class="lineseg" x1="10" y1="10" x2="100" y2="10"/>
-    <line id="seg1" class="lineseg" x1="100" y1="10" x2="100" y2="100"/>
-    <line id="seg2" class="lineseg" x1="100" y1="100" x2="10" y2="100"/>
-    <line id="seg3" class="lineseg" x1="10" y1="100" x2="10" y2="10"/>
-    <circle id="corner-ul" class="corner" cx="10" cy="10"/>
-    <circle id="corner-ur" class="corner" cx="100" cy="10"/>
-    <circle id="corner-lr" class="corner" cx="100" cy="100"/>
-    <circle id="corner-ll" class="corner" cx="10" cy="100"/>
-
-  </svg>
+  </div>
 </body>
 
 
