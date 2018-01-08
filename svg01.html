@@ -43,10 +43,17 @@
     display: flex;
     height: 100vh;
     justify-content: center;
-
+    align-items: center;
     flex-direction: column;
     align-items: center;
-    background-color: red;
+  }
+
+  .svg-viewport {
+    width: 400px;
+    height: 400px;
+    color: grey;
+    border-style: dashed;
+    border-radius: 1px;
   }
 </style>
 
@@ -54,15 +61,15 @@
   <div class="container">
     <h1>SVG DEMO</h1>
     <p>Click, hold and drag on the edges of the rectangle to adjust it's shape!</p>
-    <svg height="210" width="500">
-        <line id="seg0" class="lineseg" x1="10" y1="10" x2="100" y2="10"/>
-        <line id="seg1" class="lineseg" x1="100" y1="10" x2="100" y2="100"/>
-        <line id="seg2" class="lineseg" x1="100" y1="100" x2="10" y2="100"/>
-        <line id="seg3" class="lineseg" x1="10" y1="100" x2="10" y2="10"/>
-        <circle id="corner-ul" class="corner" cx="10" cy="10"/>
-        <circle id="corner-ur" class="corner" cx="100" cy="10"/>
-        <circle id="corner-lr" class="corner" cx="100" cy="100"/>
-        <circle id="corner-ll" class="corner" cx="10" cy="100"/>
+    <svg class="svg-viewport">
+        <line id="seg0" class="lineseg" x1="100" y1="100" x2="300" y2="100"/>
+        <line id="seg1" class="lineseg" x1="300" y1="100" x2="300" y2="300"/>
+        <line id="seg2" class="lineseg" x1="300" y1="300" x2="100" y2="300"/>
+        <line id="seg3" class="lineseg" x1="100" y1="300" x2="100" y2="100"/>
+        <circle id="corner-ul" class="corner" cx="100" cy="100"/>
+        <circle id="corner-ur" class="corner" cx="300" cy="100"/>
+        <circle id="corner-lr" class="corner" cx="300" cy="300"/>
+        <circle id="corner-ll" class="corner" cx="100" cy="300"/>
     </svg>
 
   </div>

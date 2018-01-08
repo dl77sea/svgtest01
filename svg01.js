@@ -37,14 +37,13 @@ function move(e) {
     let svgPt = getSvgPoint(e.clientX, e.clientY)
 
     //don't let line be dragged outside viewport
-    if (svgPt.x < 0) svgPt.x = 0
-    if (svgPt.x > 500) svgPt.x = 500
-    if (svgPt.y < 0) svgPt.y = 0
-    if (svgPt.y > 200) svgPt.y = 200
+    if (svgPt.x < 0) svgPt.x = 2
+    if (svgPt.x > 398) svgPt.x = 398
+    if (svgPt.y < 0) svgPt.y = 2
+    if (svgPt.y > 398) svgPt.y = 398
 
     switch (seg) {
 
-      // if line seg0 picked, move all points on seg0 move x1 y1 on seg1 and x2 y2 on seg3, on Y
       case 'seg0':
         document.querySelector('#' + seg).setAttribute('y1', svgPt.y)
         document.querySelector('#' + seg).setAttribute('y2', svgPt.y)
